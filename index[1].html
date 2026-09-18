@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visor de Cumplimiento SST | Sede Ventanilla</title>
+  <link rel="stylesheet" href="styles.css" /><link rel="stylesheet" href="login.css" /><link rel="stylesheet" href="users.css" />
+</head>
+<body>
+  <section class="login-gate" id="loginGate"><form class="login-card" id="loginForm"><div class="login-mark">✓</div><p class="eyebrow">INGRESO AL SISTEMA</p><h1>Visor de Cumplimiento SST</h1><p>Ingresa tu DNI y nombre completo.</p><label>DNI<input name="dni" inputmode="numeric" pattern="[0-9]{8}" required /></label><label>Nombre completo<input name="fullName" autocomplete="name" required /></label><button class="button primary" type="submit">Ingresar</button><p class="login-error" id="loginError"></p></form></section>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">✓</div><div><strong>SST · Ventanilla</strong><span>Gestión de observaciones de seguridad</span></div></div>
+    <button class="nav-btn active" id="viewerNav">Visor de Cumplimiento</button>
+    <span class="user-chip" id="userChip"></span><button class="nav-btn" id="usersNav">Usuarios</button><button class="nav-btn" id="registerNav">+ Registrar observación</button><button class="nav-btn" id="logoutBtn">Salir</button>
+  </header>
+  <main>
+    <section id="viewerScreen">
+      <div class="page-heading"><div><p class="eyebrow">SEDE VENTANILLA</p><h1>Visor de Cumplimiento</h1><p>Seguimiento centralizado de hallazgos de seguridad.</p></div><button class="button primary" id="exportBtn">⇩ Exportar a Excel</button></div>
+      <section class="metrics" aria-label="Indicadores"><article><span>Total de observaciones</span><b id="totalMetric">0</b></article><article class="pending"><span>Pendientes</span><b id="pendingMetric">0</b></article><article class="progress"><span>En proceso</span><b id="progressMetric">0</b></article><article class="closed"><span>Cerradas</span><b id="closedMetric">0</b></article></section>
+      <section class="panel filters"><div class="panel-title"><h2>Filtros de búsqueda</h2><button class="text-btn" id="clearFilters">Limpiar filtros</button></div><div class="filter-grid"><label>Nombre<input id="filterName" placeholder="Buscar trabajador" /></label><label>DNI<input id="filterDni" placeholder="DNI" inputmode="numeric" /></label><label>Placa<input id="filterPlate" placeholder="Placa" /></label><label>Desde<input type="date" id="filterFrom" /></label><label>Hasta<input type="date" id="filterTo" /></label><label>Sede<select id="filterSite"><option value="">Todas</option><option>Ventanilla</option></select></label><label>Tipo<select id="filterType"><option value="">Todos</option></select></label><label>Estado<select id="filterStatus"><option value="">Todos</option><option>Pendiente</option><option>En proceso</option><option>Cerrada</option></select></label><button class="button primary search" id="searchBtn">Buscar</button></div></section>
+      <section><div class="results-title"><h2>Observaciones registradas</h2><span id="resultsCount"></span></div><div class="cards" id="cards"></div><div class="empty" id="emptyState"><div>⌁</div><h3>No hay observaciones todavía</h3><p>Registra el primer hallazgo para iniciar el seguimiento.</p><button class="button primary" id="emptyRegister">Registrar observación</button></div></section>
+    </section>
+    <section id="usersScreen" hidden><div class="page-heading"><div><button class="back" id="usersBack">← Volver al visor</button><p class="eyebrow">ADMINISTRACIÓN</p><h1>Personas autorizadas</h1><p>Solo el administrador puede registrar y consultar personas autorizadas.</p></div></div><div class="panel form-panel"><h2>Registrar persona</h2><form id="userForm" class="form-grid"><label>DNI *<input name="dni" required inputmode="numeric" pattern="[0-9]{8}" /></label><label>Nombre completo *<input name="fullName" required /></label><label>Rol *<select name="role"><option>SUPERVISOR</option><option>CONSULTA</option><option>ADMINISTRADOR</option></select></label><label>Estado *<select name="active"><option value="true">Activo</option><option value="false">Inactivo</option></select></label><div class="form-actions wide"><button class="button primary">Registrar persona</button></div></form></div><div class="panel"><h2>Lista de personas</h2><div class="users-table" id="usersTable"></div></div></section>
+    <section id="formScreen" hidden>
+      <div class="page-heading"><div><button class="back" id="backToViewer">← Volver al visor</button><p class="eyebrow">NUEVO HALLAZGO</p><h1>Registrar Observación de Seguridad</h1><p>Completa la información necesaria para su seguimiento.</p></div></div>
+      <form id="observationForm" class="panel form-panel"><div class="form-section"><h2>Datos de la observación</h2><div class="form-grid"><label>Nombre del trabajador *<input name="workerName" required /></label><label>DNI *<input name="dni" required inputmode="numeric" /></label><label>Tipo de persona *<select name="personType" required><option>Empleado</option><option>Contratista</option><option>Militante</option></select></label><label>Placa<input name="plate" /></label><label>Fecha *<input name="date" type="date" required /></label><label>Sede *<select name="site" required><option>Ventanilla</option></select></label><label>Área / puesto *<input name="area" required /></label><label>Tipo de observación *<select name="type" id="formType" required></select></label><label>Responsable *<input name="responsible" required /></label><label>Fecha límite de cierre *<input name="dueDate" type="date" required /></label><label class="wide">Observación *<textarea name="observation" required placeholder="Describe el hallazgo con claridad"></textarea></label><label>Acción a tomar *<textarea name="action" required placeholder="Indica la acción correctiva o preventiva"></textarea></label><label class="wide file-label">Evidencia <input name="evidence" id="evidenceInput" type="file" accept="image/*,.pdf,.doc,.docx" multiple /><small>Adjunta fotografías o documentos (máx. 5 MB por archivo).</small></label></div></div><div class="form-actions"><button type="button" class="button secondary" id="cancelForm">Cancelar</button><button class="button primary" type="submit">Guardar observación</button></div></form>
+    </section>
+  </main>
+  <dialog id="detailDialog"><div id="dialogContent"></div></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script><script src="auth.js"></script><script src="open-access.js"></script>
+</body>
+</html>
